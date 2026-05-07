@@ -95,6 +95,10 @@ Configuration is fully environment-variable driven (API tokens, SMTP credentials
 - The `Protocol`-based processor pattern keeps routing logic clean and extensible
 - The time saved finding documents — and the peace of mind — far outweighs the setup effort
 
+## Full code
+
+The full source code is available at: https://github.com/bartdorlandt/paperless_email_processor
+
 ## About
 
 **Bart Dorlandt** is the owner of Dream Networking and Automation. Twenty years in network engineering and automation, the last ten focused on: *there must be a better way*.
