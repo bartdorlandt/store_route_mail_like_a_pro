@@ -4,7 +4,7 @@ theme: gaia
 _class: lead
 paginate: true
 backgroundColor: #fff
-backgroundImage: url('images/dream_bg.png')
+backgroundImage: url('template/dream_bg.png')
 style: |
     .container {
         display: flex;
@@ -16,10 +16,18 @@ style: |
     .col-25 {
         flex: 0 0 25%;
     }
+    .col-37 {
+        flex: 0 0 37%;
+    }
     .bottom-right {
         position: absolute;
         bottom: 80px;
         right: 80px;
+    }
+    .logo-position {
+        position: absolute;
+        top: 13px;
+        right: 68px;
     }
     blockquote::before,
     blockquote::after {
@@ -43,16 +51,23 @@ style: |
 ![height:500px](images/IMG_5145_med.jpeg)
 
 <!-- Intro into why this is the base for this story.
-Having to deal with all the electronic mail, the physical mail and being able to find it when needed...
+Having to deal with all the physical mail and the electronic mail and being able to find it when needed...
 
-Especially with our friends of the blue envelopes, please proof what you did 5 years ago..
+Especially with our friends of the blue envelopes:
+    "please proof what your situation was 5 years ago.."
 
-And what about our finance system, please provide all sources where your money came from and preferably where they got the money from 10 years ago
+And what about our finance system, or stock broker, please provide all sources where your money came from and preferably where they got the money from 10 years ago
 And please do this yearly, because we are forgetful.
 
+How to go about this?
 -->
 
 ---
+<div class="logo-position">
+
+![w:450px](template/dream_logo.png)
+
+</div>
 
 ## Bart Dorlandt
 
@@ -60,16 +75,13 @@ And please do this yearly, because we are forgetful.
 - 20 years in network engineering and automation
 - Last year I presented "Repos are like children - Parenting 101"
 - Lives by the phrase: *There must be a better way*
-- https://linkedin.com/in/bartdorlandt/
-- https://dreamnetworking.nl/
 
 <div class="bottom-right">
 
-![w:250px](images/qr_bart_linkedin.png)
+![w:180px](template/qr_bart_linkedin.png)
 
 </div>
 
-<!-- I'll be talking you on a journey of on how to route and structure your mail -->
 ---
 
 ## Pragmatic approach to a better mail handling
@@ -78,6 +90,10 @@ And please do this yearly, because we are forgetful.
 - The goal: have a better way to handle it, store it, and find it
 - The solution: a mail handling system that is flexible, automated, and easy to use
 
+<!--
+* Sorting mail is just crap or it is just my sorting mechanism that is crap.
+* Finding "my sorted documents" ... good bye saturday afternoon, hello frustration.
+-->
 ---
 
 ## Paperless-ngx
@@ -85,6 +101,9 @@ And please do this yearly, because we are forgetful.
 - I had heard about paperless-ngx, an open-source document management system
 - I have a few friends that were already happy with it
 
+<!--
+Let's give it a try
+-->
 ---
 
 ## What is paperless-ngx
@@ -92,29 +111,39 @@ And please do this yearly, because we are forgetful.
 - A document management system that allows you to store, organize, and search your documents
 - It has a web interface, an API, and can read and parse emails
 - It can also watch folders for new documents to process
-- It has features for self-improving, structuring & workflows
+- It has features for structuring, self-improving & workflows
+
+<!--
+With this we have different ways to feed documents to it
+structuring is about the Correspondent / Document type / Storage path and Tags
+Self-improving, it learns from previously marked documents, so it can suggest the same for new documents
+    Correspondent / Document type / Storage path and Tags
+Workflows provide triggers and actions to automate the processing of documents
+-->
 
 ---
 
 ![bg fit](images/p_dashboard.png)
 
-<!-- Mention:
+<!--
+Mention:
 Custom view
+    Inbox - what you still need to process
     Belastingdienst
     Invoices
     ...
+Statistics on the side
 -->
 ---
-
 
 ![bg fit](images/p_overview.png)
 
 <!-- Mention:
-Title
-Correspondent
-Document type
-Storage path
-tags -->
+Your place to start your search
+Use the dropdown filters are search throughout your documents.
+    Not only the title or filename, everything!
+
+-->
 
 ---
 
@@ -122,10 +151,13 @@ tags -->
 
 <!-- Mention:
 Title
+Date created is usually correctly extracted from the document, but you can change it if needed
 Correspondent
 Document type
 Storage path
-tags -->
+tags
+Custom fields are also possible
+-->
 
 ---
 
@@ -203,16 +235,24 @@ volumes:
 </div>
 </div>
 
+<!--
+The paperless-ngx site provides several full examples for docker-compose.
+Mostly copy/paste done
+This example supports processing email, which you could leave out if your workflow doesn't require it.
+-->
+
 ---
+
 ## Destinations
 
-In my case:
+Where do my documents need to go?
 
 - Paperless
 - Bookkeeping system (email / app / web)
 - Bookkeeper (email)
 
-<!-- Both the bookkeeping system and the bookkeeper are reachable via email
+<!--
+Both the bookkeeping system and the bookkeeper are reachable via email
 I can now drop a document (incl image) in any of the systems
 
 Some would already be happy with this, but not me...
@@ -222,13 +262,20 @@ Some would already be happy with this, but not me...
 
 ## Input
 
-![bg right:40% h:400px](images/scanner.png)
+![bg right:33% h:280px](images/scanner.png)
 
 - I don't want to use this
 - I "can't" use the camera app on the phone
   - doesn't work well in the dark
   - doesn't generate a pdf
 - It should be easy!
+
+<!-- Do we have people in the room who don't know what this is?
+I'm getting old...
+
+I want the input to be easy, quick and preferably on the spot.
+able to generate high contrast PDFs
+-->
 
 ---
 
@@ -238,28 +285,35 @@ Some would already be happy with this, but not me...
   - enhances the contrast
   - finds the corners
   - generates a pdf
-  - uploads it to the dropbox folder
+  - uploads it to the dropbox cloud in a chosen folder
 
 > "NOTE: you'll have to accept this is synced to the cloud."
 
-![bg right:40% h:600px](images/scan.png)
+![bg right:35% h:500px](images/scan.png)
 
 ---
 
-## Dependencies
+## Solution dependencies
 
 - Synced folder
 - Process the folder for new files
 - Route the files to the right destination
-  - ability to reach paperless and email
-- Mark files as processed to avoid duplicates
+  - ability to reach multiple destinations
+- Move files to done folder to avoid duplicates
 
+<!--
+It needs to reach multiple destinations without human intervention
+I've chosen to move files, though you could choose to delete them
+    as they are in another system now.
+
+-->
 ---
 
 ## Where to host
 
 - Synology NAS
 
+<!-- Personal edition comes to live -->
 ---
 
 ## What do we need?
@@ -269,34 +323,34 @@ Some would already be happy with this, but not me...
 - Python
 - Scheduler
 
-<!-- Comment on python
-It ships with python2... ???
-These days it has python3.9
-
-But better, we have `uv` these days. Don't you just love uv?
+<!--
+Docker + docker-compose needs a little bit of tweaking initially
+python2 was the only python version available on the NAS, when I started this project.
+    These days there is py3.9
+But who cares what is available, we have `uv`
+    It makes things to much easier!
+    Don't you just love uv?
 
 Dependencies check
  -->
 
 ---
 
-### Architecture of the glueware
+## Requirements of this little glueware
 
 - Ability to send to multiple destinations
 - Ability to process folders for new files
-- Ability to mark files as processed to avoid duplicates
+- Ability to move files to done folder
 - Ability to notify me in case of errors
 
 ---
 
-## Fun things
-
+## Let's dive in
 
 <div class="container">
 <div class="col">
 
 ```python
-
 def main() -> None:
     """Main entry point for the script."""
     # Reading the vars here to ensure env dependencies are present and loaded
@@ -356,12 +410,18 @@ class EmailVars:
 </div>
 </div>
 
----
+<!--
+* Setting up the vars using dataclasses
+* Want to fail fast in case of missing or invalid environment variables
+* Some global variables which are required in multiple places
+* Using `environs` library to read and validate environment variables
+-->
 
+---
 
 ```python
 def main() -> None:
-    ...
+    # 2nd part of the main function, after reading the vars
     paperless_processor = PaperlessAPIProcessor(paperless_vars)
     bookkeeping_processor = EmailProcessor(bookkeeping_vars)
     to_person_processor = EmailProcessor(bookkeeper_vars)
@@ -373,19 +433,18 @@ def main() -> None:
     process_folder(MAIN_PATH / "to_paperless_bookkeeper", processors=[paperless_processor, to_person_processor])
     process_folder(MAIN_PATH / "to_bookkeeper", processors=[to_person_processor])
 ```
+<!--
+* Each of the processors is defined with their respective configuration dataclass
+* Multiple directories have been defined and for each directory the appropriate processors are assigned
+    * Some have 1 some 2.
+-->
+
 ---
+
+<div class="container">
+<div class="col">
+
 ```python
-
-def move_to_done(filepath: Path) -> None:
-    """Move processed file to the done directory."""
-    parent = filepath.parent.name
-    done_dir = MAIN_PATH / "done" / parent
-    done_dir.mkdir(parents=True, exist_ok=True)
-    target = done_dir / filepath.name
-    filepath.rename(target)
-    logger.info(f"Moved {filepath} to {target}")
-
-
 def process_folder(folder: Path, processors: list[FileProcessor]) -> None:
     """Process files in the given folder with the provided processors.
     Files starting with a dot are ignored.
@@ -407,6 +466,29 @@ def process_folder(folder: Path, processors: list[FileProcessor]) -> None:
         if processed == len(processors):
             move_to_done(file)
 ```
+
+</div>
+<div class="col col-37">
+
+```python
+def move_to_done(filepath: Path) -> None:
+    """Move processed file to the done directory."""
+    parent = filepath.parent.name
+    done_dir = MAIN_PATH / "done" / parent
+    done_dir.mkdir(parents=True, exist_ok=True)
+    target = done_dir / filepath.name
+    filepath.rename(target)
+    logger.info(f"Moved {filepath} to {target}")
+```
+</div>
+</div>
+
+<!--
+Processing happens for each file and goes through all processors
+This system does not support bundling multiple files together, this should already have been done when taking the picture
+When all processors succeed, the file is moved to the done folder, otherwise an error email is sent
+-->
+
 ---
 
 ```python
@@ -419,6 +501,12 @@ class FileProcessor(Protocol):
         """Process the file and return True if successful, False otherwise."""
 
 ```
+<!--
+* I've used a Protocol class for consistency.
+  * This whole file is small enough that some functions would've achieved the same.
+* But then I wouldn't have learned about protocols.
+* And where is the fun if you don't learn something new?
+-->
 
 ---
 ```python
@@ -453,6 +541,10 @@ class PaperlessAPIProcessor:
             logger.error(f"Failed to upload {filepath} to Paperless: {response.status_code} {response.text}")
             return False
 ```
+<!--
+Here is the api client for Paperless API, instead of the API I could've used a folder that paperless watches
+Though this would've restricted future use if the 2 tools weren't on the same system.
+-->
 
 ---
 ```python
@@ -486,6 +578,12 @@ class EmailProcessor:
             logger.info(f"Sent successfully via email: {filepath}")
             return True
 ```
+<!--
+* Same story essentially, just now for sending an email.
+* I did inform my bookkeeper that for any future emails regarding document transfer, they would be boring and impersonal
+* She already knew me, so laughed and accepted...
+-->
+
 ---
 
 ## End result flow
@@ -493,32 +591,44 @@ class EmailProcessor:
 1. Drop a pdf in the desired folder (phone / laptop)
 2. It gets synced to dropbox and the NAS
 3. Hourly the script runs and processes the files
+   - Depending on the folder, multiple processors are run
 4. When successful, the file is moved to the done folder
 
 Once in a while I check the paperless inbox to process the docs
 
+<!--
+Process the inbox, would be adding the correct correspondent / type / tags etc.
+-->
+
 ---
+
 ## Summary
 
-- Having uv makes it incredibly easy to have a newer python version and manage dependencies (on a NAS)
-- Your own playground allows you to experiment
-  - Like `Protocol`
+- Don't forget to learn while you create/automate
+- Having uv makes this a breeze (especially, on a NAS)
 - Awesome that something this easy, saves me hours
   - The image snapping bit
   - Dropping attachments from email as well
   - but also finding documents
+    - Marking them correctly help enormously
 
-<!-- Did you need that receipt of your broken washing machine? -->
+<!-- Did you need that receipt of your broken washing machine?
+Search and find
+-->
 
 ---
 
 ## What can you automate in your life?
 
-**Q&A**
-
-**Thank you.**
-
 - Bart Dorlandt
 - https://linkedin.com/in/bartdorlandt/
+- https://dreamnetworking.nl/
+- https://github.com/bartdorlandt/paperless_email_processor
+- 14:15 - Camera 5
+  - Json freedom or chaos;
+    how to trust your data
 
 ![bg right:30% h:400px](images/summary_paperless.png)
+
+<!-- This was actually a 2nd talk that filled an open spot.
+Come visit my other talk  -->
