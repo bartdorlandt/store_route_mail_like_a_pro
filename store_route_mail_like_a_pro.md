@@ -488,7 +488,7 @@ class EmailProcessor:
 3. Hourly the script runs and processes the files
 4. When successful, the file is moved to the done folder
 
-Once every while I check the paperless inbox to process the docs
+Once in a while I check the paperless inbox to process the docs
 
 ---
 ## Summary
