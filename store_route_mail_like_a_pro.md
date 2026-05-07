@@ -21,6 +21,13 @@ style: |
         bottom: 80px;
         right: 80px;
     }
+    blockquote::before,
+    blockquote::after {
+        content: '';
+    }
+    blockquote {
+        font-style: italic;
+    }
 ---
 
 # How to store and route your (physical) mail like a pro
@@ -233,7 +240,7 @@ Some would already be happy with this, but not me...
   - generates a pdf
   - uploads it to the dropbox folder
 
-> NOTE: you'll have to accept this is synced to the cloud.
+> "NOTE: you'll have to accept this is synced to the cloud."
 
 ![bg right:40% h:600px](images/scan.png)
 
