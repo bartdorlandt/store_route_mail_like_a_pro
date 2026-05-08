@@ -36,22 +36,34 @@ style: |
     blockquote {
         font-style: italic;
     }
+    .main-name {
+        position: absolute;
+        bottom: 16px;
+        right: 100px;
+        font-size: 0.9em;
+    }
 ---
 
 # How to store and route your (physical) mail like a pro
 
 ## personal edition
 
+<div class="main-name">
+Bart Dorlandt
+</div>
+
 ---
 
-## How it all started
+## The usual view after vacation
 
 <!-- _class: lead -->
 
 ![height:500px](images/IMG_5145_med.jpeg)
 
-<!-- Intro into why this is the base for this story.
-Having to deal with all the physical mail and the electronic mail and being able to find it when needed...
+<!--
+Deal with the physical mail
+the electronic mail
+and being able to find it when needed...
 
 Especially with our friends of the blue envelopes:
     "please proof what your situation was 5 years ago.."
@@ -82,6 +94,13 @@ How to go about this?
 
 </div>
 
+<!--
+Hi, I'm Bart.
+I've been in networking all my career and dove into automation about 10 years ago
+Last year was my first PyGrunn and I loved it, so had to come back
+
+What you need to know about me: I live by the phrase "There must be a better way"
+-->
 ---
 
 ## Pragmatic approach to a better mail handling
@@ -253,9 +272,14 @@ Where do my documents need to go?
 
 <!--
 Both the bookkeeping system and the bookkeeper are reachable via email
+
 I can now drop a document (incl image) in any of the systems
 
+Still manual work
+
 Some would already be happy with this, but not me...
+
+There must be a better way
 -->
 
 ---
@@ -281,7 +305,7 @@ able to generate high contrast PDFs
 
 ## Dropbox camera
 
-- It takes the picture and
+- It takes the picture, and:
   - enhances the contrast
   - finds the corners
   - generates a pdf
@@ -291,29 +315,25 @@ able to generate high contrast PDFs
 
 ![bg right:35% h:500px](images/scan.png)
 
+<!--
+Finds the corners, therefore zooms in
+
+A few years back, the cloud was less of an issue, but now we live in the Trump era
+-->
+
 ---
 
 ## Solution dependencies
 
 - Synced folder
-- Process the folder for new files
-- Route the files to the right destination
-  - ability to reach multiple destinations
-- Move files to done folder to avoid duplicates
+- Some code to glue it all together
+- Execute the code on a regular basis
+- Paperless
 
 <!--
-It needs to reach multiple destinations without human intervention
-I've chosen to move files, though you could choose to delete them
-    as they are in another system now.
-
+My system is a Synology NAS
 -->
----
 
-## Where to host
-
-- Synology NAS
-
-<!-- Personal edition comes to live -->
 ---
 
 ## What do we need?
@@ -321,12 +341,14 @@ I've chosen to move files, though you could choose to delete them
 - CloudSync to sync the dropbox folder to the NAS
 - Docker + docker-compose
 - Python
-- Scheduler
+- Task Scheduler
 
 <!--
 Docker + docker-compose needs a little bit of tweaking initially
+
 python2 was the only python version available on the NAS, when I started this project.
     These days there is py3.9
+
 But who cares what is available, we have `uv`
     It makes things to much easier!
     Don't you just love uv?
@@ -343,6 +365,13 @@ Dependencies check
 - Ability to move files to done folder
 - Ability to notify me in case of errors
 
+<!--
+It needs to reach multiple destinations without human intervention
+
+Move over delete, just to be sure
+
+Though could be delete, since they are in the designated system now
+-->
 ---
 
 ## Let's dive in
@@ -412,8 +441,11 @@ class EmailVars:
 
 <!--
 * Setting up the vars using dataclasses
+
 * Want to fail fast in case of missing or invalid environment variables
+
 * Some global variables which are required in multiple places
+
 * Using `environs` library to read and validate environment variables
 -->
 
@@ -435,6 +467,7 @@ def main() -> None:
 ```
 <!--
 * Each of the processors is defined with their respective configuration dataclass
+
 * Multiple directories have been defined and for each directory the appropriate processors are assigned
     * Some have 1 some 2.
 -->
@@ -485,7 +518,9 @@ def move_to_done(filepath: Path) -> None:
 
 <!--
 Processing happens for each file and goes through all processors
+
 This system does not support bundling multiple files together, this should already have been done when taking the picture
+
 When all processors succeed, the file is moved to the done folder, otherwise an error email is sent
 -->
 
@@ -504,7 +539,9 @@ class FileProcessor(Protocol):
 <!--
 * I've used a Protocol class for consistency.
   * This whole file is small enough that some functions would've achieved the same.
+
 * But then I wouldn't have learned about protocols.
+
 * And where is the fun if you don't learn something new?
 -->
 
@@ -543,6 +580,7 @@ class PaperlessAPIProcessor:
 ```
 <!--
 Here is the api client for Paperless API, instead of the API I could've used a folder that paperless watches
+
 Though this would've restricted future use if the 2 tools weren't on the same system.
 -->
 
@@ -580,7 +618,9 @@ class EmailProcessor:
 ```
 <!--
 * Same story essentially, just now for sending an email.
+
 * I did inform my bookkeeper that for any future emails regarding document transfer, they would be boring and impersonal
+
 * She already knew me, so laughed and accepted...
 -->
 
@@ -602,7 +642,7 @@ Process the inbox, would be adding the correct correspondent / type / tags etc.
 
 ---
 
-## Summary
+## Take away
 
 - Don't forget to learn while you create/automate
 - Having uv makes this a breeze (especially, on a NAS)
@@ -613,7 +653,7 @@ Process the inbox, would be adding the correct correspondent / type / tags etc.
     - Marking them correctly help enormously
 
 <!-- Did you need that receipt of your broken washing machine?
-Search and find
+Search and you shall find
 -->
 
 ---
