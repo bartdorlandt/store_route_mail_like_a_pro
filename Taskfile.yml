@@ -3,7 +3,8 @@
 version: "3"
 
 vars:
-  FILE: store_route_mail_like_a_pro
+  FILES:
+    sh: gfind -type f -maxdepth 1 -name "store*.md" -printf "%P\n"
   MAIN_OPTIONS: "--allow-local-files"
   METADATA: "--title 'Store and Route Your Mail Like a Pro' --author 'Bart
     Dorlandt' --keywords 'mail, organization, productivity, workflow'
@@ -23,34 +24,28 @@ tasks:
 
   export:pdf:
     desc: Export the presentation to PDF
-    deps: [ mkdir:export ]
+    deps: [mkdir:export]
     vars:
-      EXPORT_FILE: export/{{.FILE}}.pdf
-      EXPORT_NOTES_FILE: export/{{.FILE}}_notes.pdf
       OPTIONS: "{{.MAIN_OPTIONS}} --pdf {{.METADATA}}"
     cmds:
-      - marp {{.OPTIONS}} -o {{.EXPORT_FILE}} {{.FILE}}.md
-      - marp {{.OPTIONS}} --pdf-notes -o {{.EXPORT_NOTES_FILE}} {{.FILE}}.md
+      - for:
+          var: FILES
+        cmd: marp {{.OPTIONS}} -o export/{{.ITEM | replace ".md" ".pdf"}} {{.ITEM}}
 
   export:pptx:
     desc: Export the presentation to PPTX
-    deps: [ mkdir:export ]
+    deps: [mkdir:export]
     vars:
-      EXPORT_FILE: export/{{.FILE}}.pptx
       OPTIONS: "{{.MAIN_OPTIONS}} --pptx {{.METADATA}}"
     cmds:
-      - marp {{.OPTIONS}} -o {{.EXPORT_FILE}} {{.FILE}}.md
+      - for:
+          var: FILES
+        cmd: marp {{.OPTIONS}} -o export/{{.ITEM | replace ".md" ".pptx"}} {{.ITEM}}
 
   present:
     desc: Present the presentation
     vars:
       OPTIONS: "{{.MAIN_OPTIONS}}"
     cmds:
-      - open http://localhost:8080/{{.FILE}}.md
+      - open http://localhost:8080/
       - marp -s {{.OPTIONS}} .
-
-  notes:
-    desc: Export the notes
-    cmds:
-      - marp --notes {{.FILE}}.md
-      - mv json_freedom_or_chaos.txt export/
